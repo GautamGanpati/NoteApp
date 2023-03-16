@@ -85,6 +85,7 @@ class _HomePageState extends State<HomePage> {
                     height: 10,
                   ),
                   TextField(
+                    maxLines: null,
                     controller: _descriptionController,
                     decoration: const InputDecoration(hintText: 'Note'),
                   ),
@@ -131,18 +132,24 @@ class _HomePageState extends State<HomePage> {
                   margin: const EdgeInsets.only(top: 8, left: 5, right: 5),
                   color: Colors.green.shade600,
                   child: ListTile(
-                    title: Text(
-                      _notes[index]['title'],
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    subtitle: Text(_notes[index]['description'],
-                        style: TextStyle(
+                    title: Padding(
+                      padding: const EdgeInsets.only(top: 25),
+                      child: Text(
+                        _notes[index]['title'],
+                        style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600)),
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 15,bottom: 5),
+                      child: Text(_notes[index]['description'],
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500)),
+                    ),
                     trailing: SizedBox(
                       width: 100,
                       child: Row(
