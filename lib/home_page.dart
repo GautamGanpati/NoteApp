@@ -66,118 +66,121 @@ class _HomePageState extends State<HomePage> {
         elevation: 5,
         isScrollControlled: true,
         context: context,
-        builder: (_) => Container(
-              padding: EdgeInsets.only(
-                  top: 15,
-                  left: 15,
-                  right: 15,
-                  bottom: MediaQuery.of(context).viewInsets.bottom + 120),
-              decoration: const BoxDecoration(border: Border.symmetric()),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextField(
-                    controller: _titleController,
-                    decoration: const InputDecoration(hintText: 'Title'),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextField(
-                    maxLines: null,
-                    controller: _descriptionController,
-                    decoration: const InputDecoration(hintText: 'Note'),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (id == null &&
-                          _descriptionController.text.isNotEmpty) {
-                        await _addItem();
-                      }
-                      if (id != null) {
-                        await _updateItem(id);
-                      }
-                      _titleController.clear();
-                      _descriptionController.clear();
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(id == null ? 'Create New' : 'Update'),
-                  ),
-                ],
+        builder: (_) => SingleChildScrollView(
+          child: Container(
+                padding: EdgeInsets.only(
+                    top: 15,
+                    left: 15,
+                    right: 15,
+                    bottom: MediaQuery.of(context).viewInsets.bottom + 120),
+                decoration: const BoxDecoration(border: Border.symmetric()),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    TextField(
+                      maxLines: null,
+                      controller: _titleController,
+                      decoration: const InputDecoration(hintText: 'Title'),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      controller: _descriptionController,
+                      decoration: const InputDecoration(hintText: 'Note'),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (id == null &&
+                            _descriptionController.text.isNotEmpty) {
+                          await _addItem();
+                        }
+                        if (id != null) {
+                          await _updateItem(id);
+                        }
+                        _titleController.clear();
+                        _descriptionController.clear();
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(id == null ? 'Create New' : 'Update'),
+                    ),
+                  ],
+                ),
               ),
-            ));
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 5,
-        backgroundColor: Colors.green.shade700,
-        title: const Text('Notes'),
-        centerTitle: false,
-      ),
-      body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemCount: _notes.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: const EdgeInsets.only(top: 8, left: 5, right: 5),
-                  color: Colors.green.shade600,
-                  child: ListTile(
-                    title: Padding(
-                      padding: const EdgeInsets.only(top: 25),
-                      child: Text(
-                        _notes[index]['title'],
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.only(top: 15,bottom: 5),
-                      child: Text(_notes[index]['description'],
-                          style: TextStyle(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 5,
+          title: const Text('Notes'),
+          centerTitle: false,
+        ),
+        body: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.builder(
+                itemCount: _notes.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
+                    child: ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.only(top: 25),
+                        child: Text(
+                          _notes[index]['title'],
+                          style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500)),
-                    ),
-                    trailing: SizedBox(
-                      width: 100,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              _showForm(_notes[index]['id']);
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () => _deleteItem(_notes[index]['id']),
-                          ),
-                        ],
+                              fontSize: 22,
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 15,bottom: 10),
+                        child: Text(_notes[index]['description'],
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                      trailing: SizedBox(
+                        width: 100,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                _showForm(_notes[index]['id']);
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () => _deleteItem(_notes[index]['id']),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }),
-      floatingActionButton: FloatingActionButton(
-        elevation: 15,
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-        onPressed: () {
-          _showForm(null);
-        },
-        child: const Icon(Icons.add),
+                  );
+                }),
+        floatingActionButton: FloatingActionButton(
+          elevation: 15,
+          backgroundColor: Colors.green,
+          onPressed: () {
+            _showForm(null);
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
