@@ -49,9 +49,11 @@ class _HomePageState extends State<HomePage> {
 
   void _deleteItem(int id) async {
     await SQLHelper.deleteItem(id);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Deleted'),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Deleted'),
+      ),
+    );
     _refreshNotes();
   }
 
@@ -63,121 +65,122 @@ class _HomePageState extends State<HomePage> {
     }
 
     showModalBottomSheet(
-        elevation: 5,
-        isScrollControlled: true,
-        context: context,
-        builder: (_) => SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(
-                    top: 15,
-                    left: 15,
-                    right: 15,
-                    bottom: MediaQuery.of(context).size.height / 3),
-                //decoration: const BoxDecoration(border: Border.symmetric()),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      constraints: const BoxConstraints(
-                        maxHeight: 100,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: Colors.black,
-                        ),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 8.0,
-                          right: 8.0,
-                        ),
-                        child: TextField(
-                          textAlignVertical: TextAlignVertical.center,
-                          style: const TextStyle(fontSize: 18),
-                          cursorColor: Colors.white,
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          controller: _titleController,
-                          decoration: const InputDecoration(
-                            hintText: 'Title',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
+      elevation: 5,
+      isScrollControlled: true,
+      context: context,
+      builder: (_) => SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(
+              top: 15,
+              left: 15,
+              right: 15,
+              bottom: MediaQuery.of(context).size.height / 3),
+          //decoration: const BoxDecoration(border: Border.symmetric()),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Container(
+                constraints: const BoxConstraints(
+                  maxHeight: 150,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 1,
+                    color: Colors.black,
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10.0,
+                    right: 10.0,
+                  ),
+                  child: TextField(
+                    textAlignVertical: TextAlignVertical.center,
+                    style: const TextStyle(fontSize: 18),
+                    cursorColor: Colors.white,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    controller: _titleController,
+                    decoration: const InputDecoration(
+                      hintText: 'Title',
+                      border: InputBorder.none,
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      constraints: const BoxConstraints(
-                        minHeight: 200,
-                        maxHeight: 250,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: Colors.black,
-                        ),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 8.0,
-                          right: 8.0,
-                        ),
-                        child: TextField(
-                          style: const TextStyle(fontSize: 20),
-                          cursorColor: Colors.white,
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          controller: _descriptionController,
-                          decoration: const InputDecoration(
-                            hintText: 'Note',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.deepPurple,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 8,
-                          right: 8,
-                        ),
-                        child: TextButton(
-                          onPressed: () async {
-                            if (id == null &&
-                                _descriptionController.text.isNotEmpty) {
-                              await _addItem();
-                            }
-                            if (id != null) {
-                              await _updateItem(id);
-                            }
-                            _titleController.clear();
-                            _descriptionController.clear();
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            id == null ? 'Create New' : 'Update',
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ));
+              const SizedBox(
+                height: 15,
+              ),
+              Container(
+                constraints: const BoxConstraints(
+                  minHeight: 200,
+                  maxHeight: 250,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 1,
+                    color: Colors.black,
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10.0,
+                    right: 10.0,
+                  ),
+                  child: TextField(
+                    style: const TextStyle(fontSize: 20),
+                    cursorColor: Colors.white,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    controller: _descriptionController,
+                    decoration: const InputDecoration(
+                      hintText: 'Note',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.deepPurple,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 8,
+                    right: 8,
+                  ),
+                  child: TextButton(
+                    onPressed: () async {
+                      if (id == null &&
+                          _descriptionController.text.isNotEmpty) {
+                        await _addItem();
+                      }
+                      if (id != null) {
+                        await _updateItem(id);
+                      }
+                      _titleController.clear();
+                      _descriptionController.clear();
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      id == null ? 'Create New' : 'Update',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
