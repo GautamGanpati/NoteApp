@@ -239,8 +239,29 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   IconButton(
                                     icon: const Icon(Icons.delete),
-                                    onPressed: () =>
-                                        _deleteItem(_notes[index]['id']),
+                                    onPressed: () => showDialog(
+                                      context: context,
+                                      builder: (ctx) => AlertDialog(
+                                        title: const Text('Delete Note'),
+                                        content: const Text(
+                                            'Do you want to delete this note'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              _deleteItem(_notes[index]['id']);
+                                              Navigator.of(ctx).pop();
+                                            },
+                                            child: const Text('YES'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(ctx);
+                                            },
+                                            child: const Text('NO'),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
